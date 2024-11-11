@@ -9,7 +9,7 @@ const Register = () => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post(process.env.REACT_APP_BE_URL, data);
+            const response = await axios.post(`${process.env.REACT_APP_BE_URL}/user/register`, data);
             toast.success('Registration successful!');
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Registration failed! Please try again.';

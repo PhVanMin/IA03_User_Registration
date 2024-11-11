@@ -2,12 +2,24 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate();
 
-    const onSubmit = (data) => {
-        toast.error("Feature not implemeted!");
+    const onSubmit = async (data) => {
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_URL}/auth/login`, data);
+            localStorage.setItem('jwtToken', response.data.token);
+            axios.defaults.headers['Authorization'] = `Bearer ${response.data.token}`;
+            toast.success('Login successful!');
+            navigate('/profile');
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || 'Login failed! Please try again.';
+            toast.error(errorMessage);
+        }
     };
 
     return (

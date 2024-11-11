@@ -31,4 +31,8 @@ export class UserService {
     await user.save();
     return { message: 'User registered successfully' };
   }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return this.userModel.findOne({ email }).exec();
+  }
 }
